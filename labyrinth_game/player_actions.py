@@ -7,3 +7,14 @@ def show_inventory(game_state: dict) -> None:
         print("Инвентарь пуст.")
 
 
+def get_input(prompt: str = "> ") -> str:
+    """Безопасно запрашивает ввод пользователя. Возвращает строку команды.
+
+    При прерывании ввода (Ctrl+C / Ctrl+D) возвращает команду 'quit'.
+    """
+    try:
+        return input(prompt).strip()
+    except (KeyboardInterrupt, EOFError):
+        print("\nВыход из игры.")
+        return "quit"
+
