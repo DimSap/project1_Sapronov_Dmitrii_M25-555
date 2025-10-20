@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-from labyrinth_game.utils import describe_current_room, solve_puzzle, attempt_open_treasure
+from labyrinth_game.utils import describe_current_room, solve_puzzle, attempt_open_treasure, show_help
 from labyrinth_game.player_actions import get_input, show_inventory, move_player, take_item, use_item
 from labyrinth_game.constants import ROOMS
 
@@ -64,6 +64,8 @@ def process_command(game_state, command):
         case 'quit':
             game_state['game_over'] = True
             print("Игра завершена. До встречи!")
+        case 'help':
+            show_help()
         case _:
             print("Неизвестная команда. Доступные: look, go, take, use, inventory, solve, open, quit.")
 

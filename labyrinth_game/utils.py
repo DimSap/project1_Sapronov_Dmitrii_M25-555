@@ -1,5 +1,16 @@
 from labyrinth_game.constants import ROOMS
 
+def show_help():
+    print("\nДоступные команды:")
+    print("  go <direction>  - перейти в направлении (north/south/east/west)")
+    print("  look            - осмотреть текущую комнату")
+    print("  take <item>     - поднять предмет")
+    print("  use <item>      - использовать предмет из инвентаря")
+    print("  inventory       - показать инвентарь")
+    print("  solve           - попытаться решить загадку в комнате")
+    print("  quit            - выйти из игры")
+    print("  help            - показать это сообщение") 
+
 def describe_current_room(game_state):
     """
     Выводит описание текущей комнаты на экран на основе состояния игры.
