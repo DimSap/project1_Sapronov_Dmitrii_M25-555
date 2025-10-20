@@ -73,14 +73,11 @@ def solve_puzzle(game_state):
 
     user_answer = get_input("Ваш ответ: ").strip().lower()
 
-    # Список альтернативных ответов (из констант), сравниваем без регистра/пробелов по краям
-    normalized_answers = [a.strip().lower() for a in right_answers]
-    if user_answer in normalized_answers:
+    if user_answer in right_answers:
         print("Верно! Вы разгадали загадку.")
         # Убираем загадку, чтобы её нельзя было решить повторно
         room['puzzle'] = None
 
-        # Награда зависит от комнаты
         inventory = game_state.setdefault('player_inventory', [])
         reward = room.get('reward')
         if reward:
