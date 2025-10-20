@@ -30,9 +30,9 @@ make project
 
 Встроенный предпросмотр:
 
-[![asciicast](https://asciinema.org/a/I5wiXB2FzIVCgyNJ98NWIO3ir.svg)](https://asciinema.org/a/I5wiXB2FzIVCgyNJ98NWIO3ir)
+[![asciicast](https://asciinema.org/a/EMvYLhaMEubpns79EXx7YnIZn.svg)](https://asciinema.org/a/EMvYLhaMEubpns79EXx7YnIZn)
 
-Если превью не отображается, откройте запись по ссылке: `https://asciinema.org/a/I5wiXB2FzIVCgyNJ98NWIO3ir`
+Если превью не отображается, откройте запись по ссылке: `https://asciinema.org/a/EMvYLhaMEubpns79EXx7YnIZn`
 
 
 ### Команды игры
