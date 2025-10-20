@@ -4,6 +4,7 @@ ROOMS = {
         'exits': {'north': 'hall', 'east': 'trap_room'},
         'items': ['torch'],
         'puzzle': None,
+        'reward': None,
     },
     'hall': {
         'description': 'Большой зал с эхом. По центру стоит пьедестал с запечатанным сундуком.',
@@ -40,6 +41,7 @@ ROOMS = {
         'exits': {'south': 'library', 'east': 'observatory'},
         'items': ['sword', 'bronze_box'],
         'puzzle': None,
+        'reward': None,
     },
     'observatory': {
         'description': 'Небольшая обсерватория под куполом. Через трещину в крыше видно звезды.',
