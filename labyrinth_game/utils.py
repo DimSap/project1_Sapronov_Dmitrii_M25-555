@@ -1,16 +1,10 @@
-from labyrinth_game.constants import ROOMS
+from labyrinth_game.constants import ROOMS, COMMANDS
 import math
 
-def show_help():
+def show_help(commands = COMMANDS):
     print("\nДоступные команды:")
-    print("  go <direction>  - перейти в направлении (north/south/east/west)")
-    print("  look            - осмотреть текущую комнату")
-    print("  take <item>     - поднять предмет")
-    print("  use <item>      - использовать предмет из инвентаря")
-    print("  inventory       - показать инвентарь")
-    print("  solve           - попытаться решить загадку в комнате")
-    print("  quit            - выйти из игры")
-    print("  help            - показать это сообщение") 
+    for cmd, desc in commands.items():
+        print(f"  {cmd:<16} - {desc}")
 
 def describe_current_room(game_state):
     """
@@ -61,22 +55,30 @@ def solve_puzzle(game_state):
         print("Загадок здесь нет.")
         return
 
-    question, right_answer = puzzle
+    question, right_answers = puzzle
     print(question)
 
     user_answer = get_input("Ваш ответ: ").strip().lower()
-    if user_answer == str(right_answer).strip().lower():
+
+    # Список альтернативных ответов (из констант), сравниваем без регистра/пробелов по краям
+    if user_answer in right_answers:
         print("Верно! Вы разгадали загадку.")
         # Убираем загадку, чтобы её нельзя было решить повторно
         room['puzzle'] = None
 
-        # Награда: выдаём ключ от сокровищницы, если его ещё нет
+        # Награда зависит от комнаты
         inventory = game_state.setdefault('player_inventory', [])
-        if 'treasure_key' not in inventory:
-            inventory.append('treasure_key')
-            print("Вы получаете награду: treasure_key.")
+        reward = room.get('reward')
+        if reward:
+            if reward not in inventory:
+                inventory.append(reward)
+                print(f"Вы получаете награду: {reward}.")
     else:
         print("Неверно. Попробуйте снова.")
+        # В комнате с ловушкой — дополнительное наказание
+        if current_room_name == 'trap_room':
+            from labyrinth_game.utils import trigger_trap
+            trigger_trap(game_state)
 
 
 def attempt_open_treasure(game_state):
@@ -107,9 +109,9 @@ def attempt_open_treasure(game_state):
     choice = get_input("Сундук заперт. У вас нет ключа. Ввести код? (да/нет): ").strip().lower()
     if choice == 'да':
         puzzle = room.get('puzzle')
-        _, right_answer = puzzle
+        _, right_answers = puzzle
         code = get_input("Введите код: ").strip().lower()
-        if code == str(right_answer).strip().lower():
+        if code in right_answers:
             print("Код верный. Сундук открыт!")
             items.remove('treasure_chest')
             print("В сундуке сокровище! Вы победили!")

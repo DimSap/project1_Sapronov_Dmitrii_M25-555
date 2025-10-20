@@ -35,6 +35,15 @@ def move_player(game_state, direction):
 
     next_room = exits.get(direction)
     if next_room:
+        # Проверка доступа в комнату сокровищ
+        if next_room == 'treasure_room':
+            inventory = game_state.get('player_inventory', [])
+            if 'rusty_key' in inventory:
+                print("Вы используете найденный ключ, чтобы открыть путь в комнату сокровищ.")
+            else:
+                print("Дверь заперта. Нужен ключ, чтобы пройти дальше.")
+                return
+
         game_state['current_room'] = next_room
         game_state['steps_taken'] = game_state.get('steps_taken', 0) + 1
         describe_current_room(game_state)
@@ -77,7 +86,7 @@ def use_item(game_state, item_name):
             print("Вы зажгли факел. Стало заметно светлее.")
         case 'sword':
             print("Вы крепче сжимаете меч. Чувствуете уверенность и силу.")
-        case 'bronze box':
+        case 'bronze_box':
             # Открытие бронзовой шкатулки: добавить ключ, если его ещё нет
             if 'rusty_key' not in inventory:
                 inventory.append('rusty_key')

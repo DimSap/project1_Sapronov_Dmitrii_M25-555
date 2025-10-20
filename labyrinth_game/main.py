@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 from labyrinth_game.utils import describe_current_room, solve_puzzle, attempt_open_treasure, show_help
 from labyrinth_game.player_actions import get_input, show_inventory, move_player, take_item, use_item
-from labyrinth_game.constants import ROOMS
+from labyrinth_game.constants import COMMANDS
 
 
 def main() -> None:
@@ -24,14 +24,19 @@ def main() -> None:
         command = get_input("> ")
         if not command:
             continue
-        process_command(game_state, command)
+        process_command(game_state, command, COMMANDS)
 
 
-def process_command(game_state, command):
+def process_command(game_state, command, commands_help = COMMANDS):
     """Обрабатывает команду пользователя"""
     parts = command.strip().split(maxsplit=1)
     action = parts[0].lower() if parts else ''
     arg = parts[1].strip() if len(parts) > 1 else ''
+
+    # Поддержка однословных направлений без 'go'
+    if action in ('north', 'south', 'east', 'west'):
+        move_player(game_state, action)
+        return
 
     match action:
         case 'look':
@@ -55,9 +60,7 @@ def process_command(game_state, command):
             show_inventory(game_state)
         case 'solve':
             current_room_name = game_state.get('current_room')
-            room = ROOMS.get(current_room_name, {})
-            items = room.get('items', [])
-            if 'treasure_chest' in items:
+            if current_room_name == 'treasure_room':
                 attempt_open_treasure(game_state)
             else:
                 solve_puzzle(game_state)
@@ -65,7 +68,7 @@ def process_command(game_state, command):
             game_state['game_over'] = True
             print("Игра завершена. До встречи!")
         case 'help':
-            show_help()
+            show_help(commands_help)
         case _:
             print("Неизвестная команда. Доступные: look, go, take, use, inventory, solve, open, quit.")
 
