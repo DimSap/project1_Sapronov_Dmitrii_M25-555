@@ -1,7 +1,19 @@
-from labyrinth_game.constants import ROOMS, COMMANDS
 import math
 
-def show_help(commands = COMMANDS):
+from labyrinth_game.constants import (
+    COMMANDS,
+    EVENT_PROBABILITY_MODULO,
+    RANDOM_EVENT_KIND_COUNT,
+    ROOMS,
+    PRNG_MULTIPLIER,
+    PRNG_SCALE,
+    TRAP_DEATH_PROBABILITY_MODULO,
+    TRAP_DEATH_THRESHOLD,
+)
+
+
+def show_help(commands=COMMANDS):
+    """Печатает список доступных команд и их описания."""
     print("\nДоступные команды:")
     for cmd, desc in commands.items():
         print(f"  {cmd:<16} - {desc}")
@@ -61,7 +73,8 @@ def solve_puzzle(game_state):
     user_answer = get_input("Ваш ответ: ").strip().lower()
 
     # Список альтернативных ответов (из констант), сравниваем без регистра/пробелов по краям
-    if user_answer in right_answers:
+    normalized_answers = [a.strip().lower() for a in right_answers]
+    if user_answer in normalized_answers:
         print("Верно! Вы разгадали загадку.")
         # Убираем загадку, чтобы её нельзя было решить повторно
         room['puzzle'] = None
@@ -129,7 +142,7 @@ def pseudo_random(seed, modulo):
     """
     if modulo <= 0:
         return 0
-    x = math.sin(seed * 12.9898) * 43758.5453
+    x = math.sin(seed * PRNG_MULTIPLIER) * PRNG_SCALE
     fractional_part = x - math.floor(x)
     return int(math.floor(fractional_part * modulo))
 
@@ -148,8 +161,8 @@ def trigger_trap(game_state):
         return
 
     # Инвентарь пуст — риск урона/поражения
-    roll = pseudo_random(steps, 10)  # 0..9
-    if roll < 3:
+    roll = pseudo_random(steps, TRAP_DEATH_PROBABILITY_MODULO)
+    if roll < TRAP_DEATH_THRESHOLD:
         print("Ловушка сработала слишком сильно! Вы падаете и теряете сознание. Игра окончена.")
         game_state['game_over'] = True
     else:
@@ -161,14 +174,14 @@ def random_event(game_state):
     steps = game_state.get('steps_taken', 0)
 
     # Низкая вероятность события
-    if pseudo_random(steps, 10) != 0:
+    if pseudo_random(steps, EVENT_PROBABILITY_MODULO) != 0:
         return
 
     current_room_name = game_state.get('current_room')
     room = ROOMS.get(current_room_name, {})
     inventory = game_state.get('player_inventory', [])
 
-    event_kind = pseudo_random(steps + 1, 3)  # 0..2
+    event_kind = pseudo_random(steps + 1, RANDOM_EVENT_KIND_COUNT)  # 0..2
 
     if event_kind == 0:
         # Находка

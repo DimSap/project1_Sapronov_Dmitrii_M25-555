@@ -1,10 +1,22 @@
 #!/usr/bin/env python3
-from labyrinth_game.utils import describe_current_room, solve_puzzle, attempt_open_treasure, show_help
-from labyrinth_game.player_actions import get_input, show_inventory, move_player, take_item, use_item
 from labyrinth_game.constants import COMMANDS
+from labyrinth_game.player_actions import (
+    get_input,
+    move_player,
+    show_inventory,
+    take_item,
+    use_item,
+)
+from labyrinth_game.utils import (
+    attempt_open_treasure,
+    describe_current_room,
+    show_help,
+    solve_puzzle,
+)
 
 
 def main() -> None:
+    """Точка входа: инициализация состояния и запуск игрового цикла."""
     # Инициализация состояния игры
     game_state = {
         'player_inventory': [],
@@ -27,8 +39,8 @@ def main() -> None:
         process_command(game_state, command, COMMANDS)
 
 
-def process_command(game_state, command, commands_help = COMMANDS):
-    """Обрабатывает команду пользователя"""
+def process_command(game_state, command, commands_help=COMMANDS):
+    """Обрабатывает команду пользователя."""
     parts = command.strip().split(maxsplit=1)
     action = parts[0].lower() if parts else ''
     arg = parts[1].strip() if len(parts) > 1 else ''
@@ -70,7 +82,7 @@ def process_command(game_state, command, commands_help = COMMANDS):
         case 'help':
             show_help(commands_help)
         case _:
-            print("Неизвестная команда. Доступные: look, go, take, use, inventory, solve, open, quit.")
+            print("Неизвестная команда. Наберите 'help' для списка команд.")
 
 
 if __name__ == '__main__':

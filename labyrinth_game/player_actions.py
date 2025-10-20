@@ -1,6 +1,7 @@
 from labyrinth_game.constants import ROOMS
 from labyrinth_game.utils import describe_current_room, random_event
 
+
 def show_inventory(game_state):
     """Отображает содержимое инвентаря игрока или сообщает, что он пуст."""
     inventory = game_state.get('player_inventory', [])
