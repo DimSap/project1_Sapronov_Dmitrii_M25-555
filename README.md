@@ -28,7 +28,7 @@ make project
 
 ### Демонстрация (asciinema)
 
-Встроенный предпросмотр:
+Запись полного игорового цикла. От начала до победы:
 
 [![asciicast](https://asciinema.org/a/EMvYLhaMEubpns79EXx7YnIZn.svg)](https://asciinema.org/a/EMvYLhaMEubpns79EXx7YnIZn)
 

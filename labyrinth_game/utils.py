@@ -18,6 +18,7 @@ def show_help(commands=COMMANDS):
     for cmd, desc in commands.items():
         print(f"  {cmd:<16} - {desc}")
 
+
 def describe_current_room(game_state):
     """
     Выводит описание текущей комнаты на экран на основе состояния игры.
