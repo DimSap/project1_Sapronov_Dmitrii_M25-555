@@ -11,7 +11,7 @@ def show_inventory(game_state):
 
 
 def get_input(prompt = "> "):
-    """Безопасно запрашивает ввод пользователя. Возвращает строку команды.
+    """Запрашивает ввод пользователя. Возвращает строку команды.
 
     При прерывании ввода (Ctrl+C / Ctrl+D) возвращает команду 'quit'.
     """
@@ -50,6 +50,10 @@ def take_item(game_state, item_name):
     items = room.get('items', [])
 
     if item_name in items:
+        if item_name == 'treasure_chest':
+            print("Вы не можете поднять сундук, он слишком тяжелый.")
+            return
+            
         inventory = game_state.setdefault('player_inventory', [])
         inventory.append(item_name)
         items.remove(item_name)

@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
-from labyrinth_game.utils import describe_current_room
+from labyrinth_game.utils import describe_current_room, solve_puzzle, attempt_open_treasure
 from labyrinth_game.player_actions import get_input, show_inventory, move_player, take_item, use_item
+from labyrinth_game.constants import ROOMS
 
 
 def main() -> None:
@@ -52,6 +53,14 @@ def process_command(game_state, command):
                 print("Укажите предмет: например, 'use torch'.")
         case 'inventory':
             show_inventory(game_state)
+        case 'solve':
+            current_room_name = game_state.get('current_room')
+            room = ROOMS.get(current_room_name, {})
+            items = room.get('items', [])
+            if 'treasure_chest' in items:
+                attempt_open_treasure(game_state)
+            else:
+                solve_puzzle(game_state)
         case 'quit':
             game_state['game_over'] = True
             print("Игра завершена. До встречи!")
