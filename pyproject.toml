@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "project1-sapronov-dmitrii-m25-555"
 version = "0.1.0"
-description = ""
+description = "Консольная игра-лабиринт с загадками и случайными событиями."
 authors = ["dmitriy.sapronov <DmitriySapronovv@yandex.ru>"]
 readme = "README.md"
 
@@ -24,7 +24,7 @@ build-backend = "poetry.core.masonry.api"
 project = "labyrinth_game.main:main" 
 
 [tool.ruff]
-line-length = 88
+line-length = 120
 target-version = "py311"
 exclude = ["venv", ".venv", "dist", "__pycache__", "constants.py"]
 
